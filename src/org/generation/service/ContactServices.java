@@ -1,6 +1,10 @@
 package org.generation.service;
 
+
 import org.generation.exceptions.ContactAlreadyExistsException;
+
+import org.generation.exceptions.AgendaIsFull;
+
 import org.generation.exceptions.ContactNotFoundException;
 import org.generation.exceptions.EmptyNameException;
 import org.generation.exceptions.InvalidContactException;
@@ -9,6 +13,26 @@ import org.generation.model.Contact;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+public class ContactServices {
+    private final int capacidad = 10;
+    private List<Contact> contactos;
+
+    public ContactServices() {
+        contactos = new ArrayList<>();
+    }
+
+    public void agregarContacto(Contact nuevo) throws AgendaIsFull {
+        if (contactos.size() >= capacidad) {
+            throw new AgendaIsFull();
+        }
+        if (contactos.contains(nuevo)) {
+            System.out.println("❗ El contacto ya existe.");
+            return;
+        }
+        contactos.add(nuevo);
+    }
+}
 
 public class ContactServices {
     private final List<Contact> contacts = new ArrayList<>();
@@ -80,6 +104,7 @@ public class ContactServices {
         throw new ContactNotFoundException("No se encuentra el contacto con telefono: " + phone);
     }
 
+
     //--- El contacto existe
     public boolean contactExists(Contact currentContact) {
         Iterator<Contact> iterator = contacts.iterator();
@@ -91,5 +116,20 @@ public class ContactServices {
         }
         return false;
     }
+
+
+    //--- Eliminar un contacto de la agenda
+    public void deleteContact (Contact c) {
+        boolean removed = contacts.remove(c);
+         if (!removed) {
+             throw new ContactNotFoundException("No se encontro el contacto '" + c.getName() + "' para eliminar.");
+         }
+        System.out.println("El contacto '" + c.getName() + "' ha sido eliminado exitosamente.");
+    }
+
+
+
+
+
 
 }
