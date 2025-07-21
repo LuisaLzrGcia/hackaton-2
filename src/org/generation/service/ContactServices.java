@@ -1,5 +1,6 @@
 package org.generation.service;
 
+import org.generation.exceptions.AgendaIsFull;
 import org.generation.exceptions.ContactNotFoundException;
 import org.generation.model.Contact;
 
@@ -8,10 +9,18 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ContactServices {
+    private final int capacidad = 10;
     private final List<Contact> contacts = new ArrayList<>();
 
-    //--- Agregar contacto
-    public void addContact(Contact contact) {
+    //--- Agregar contacto con validación
+    public void addContact(Contact contact) throws AgendaIsFull {
+        if (contacts.size() >= capacidad) {
+            throw new AgendaIsFull();
+        }
+        if (contacts.contains(contact)) {
+            System.out.println("❗ El contacto ya existe.");
+            return;
+        }
         contacts.add(contact);
     }
 
@@ -32,7 +41,7 @@ public class ContactServices {
         throw new ContactNotFoundException("No se encuentra el contacto con nombre: " + name);
     }
 
-    //--- Buscar por nombre
+    //--- Buscar por teléfono
     public Contact findByPhone(String phone) {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
@@ -43,5 +52,4 @@ public class ContactServices {
         }
         throw new ContactNotFoundException("No se encuentra el contacto con telefono: " + phone);
     }
-
 }
