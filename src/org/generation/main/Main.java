@@ -1,10 +1,13 @@
 package org.generation.main;
 
+import org.generation.model.Contact;
+import org.generation.service.ContactServices;
+
 import java.util.Scanner;
 
 class Main {
      private static final Scanner scanner = new Scanner(System.in);
-     private static final AgendaService agenda = new AgendaService();// cambiar la clase para el servicio de la agenda
+     private static final ContactServices agenda = new ContactServices();// cambiar la clase para el servicio de la agenda
     public static void main(String[] args) {
         while (true){
             menu();

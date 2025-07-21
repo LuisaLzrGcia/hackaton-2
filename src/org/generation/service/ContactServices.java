@@ -2,6 +2,8 @@ package org.generation.service;
 
 import org.generation.exceptions.ContactAlreadyExistsException;
 import org.generation.exceptions.ContactNotFoundException;
+import org.generation.exceptions.EmptyNameException;
+import org.generation.exceptions.InvalidContactException;
 import org.generation.model.Contact;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class ContactServices {
         }
 
         if (contact.getName() == null || contact.getName().isBlank()) {
-            throw new InvalidContactException("El nombre no puede estar vacío.");
+            throw new EmptyNameException("El nombre no puede estar vacío.");
         }
 
 
@@ -41,12 +43,11 @@ public class ContactServices {
             throw new ContactAlreadyExistsException("El contacto ya existe en la agenda.");
         }
 
-        if (isFull()) {
+        if (!isFull()) {
             throw new IllegalArgumentException("El contacto ya existe en la agenda.");
         }
 
         contacts.add(contact);
-
 
     }
 
@@ -67,7 +68,7 @@ public class ContactServices {
         throw new ContactNotFoundException("No se encuentra el contacto con nombre: " + name);
     }
 
-    //--- Buscar por nombre
+    //--- Buscar por telefono
     public Contact findByPhone(String phone) {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
