@@ -17,6 +17,14 @@ public class Contact {
         return phone;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     // dos contactos se consideran iguales solo si el nombre coincide.
     @Override
     public boolean equals(Object obj) {

@@ -1,10 +1,6 @@
 package org.generation.service;
 
-
 import org.generation.exceptions.ContactAlreadyExistsException;
-
-import org.generation.exceptions.AgendaIsFull;
-
 import org.generation.exceptions.ContactNotFoundException;
 import org.generation.exceptions.EmptyNameException;
 import org.generation.exceptions.InvalidContactException;
@@ -15,27 +11,21 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ContactServices {
-    private final int capacidad = 10;
-    private List<Contact> contactos;
-
-    public ContactServices() {
-        contactos = new ArrayList<>();
-    }
-
-    public void agregarContacto(Contact nuevo) throws AgendaIsFull {
-        if (contactos.size() >= capacidad) {
-            throw new AgendaIsFull();
-        }
-        if (contactos.contains(nuevo)) {
-            System.out.println("❗ El contacto ya existe.");
-            return;
-        }
-        contactos.add(nuevo);
-    }
-}
-
-public class ContactServices {
     private final List<Contact> contacts = new ArrayList<>();
+    private int capacity;
+
+    // Constructor con capacidad por defecto
+    public ContactServices() {
+        this(10); // llama al otro constructor con 10
+    }
+
+    // Constructor con capacidad personalizada
+    public ContactServices(int maxCapacity) {
+        if (maxCapacity <= 0) {
+            throw new IllegalArgumentException("La capacidad debe ser mayor a 0.");
+        }
+        this.capacity = maxCapacity;
+    }
 
     // Verificar si un contacto es valido
     public void validateContact(Contact contact) {
@@ -104,7 +94,6 @@ public class ContactServices {
         throw new ContactNotFoundException("No se encuentra el contacto con telefono: " + phone);
     }
 
-
     //--- El contacto existe
     public boolean contactExists(Contact currentContact) {
         Iterator<Contact> iterator = contacts.iterator();
@@ -117,19 +106,44 @@ public class ContactServices {
         return false;
     }
 
+    //--- Modificar telefono de un contacto
+    public void updatePhone(String name, String newPhone) {
+        Contact contact = findByName(name); // buscar contacto
 
-    //--- Eliminar un contacto de la agenda
-    public void deleteContact (Contact c) {
-        boolean removed = contacts.remove(c);
-         if (!removed) {
-             throw new ContactNotFoundException("No se encontro el contacto '" + c.getName() + "' para eliminar.");
-         }
-        System.out.println("El contacto '" + c.getName() + "' ha sido eliminado exitosamente.");
+        if (contact == null) {
+            throw new ContactNotFoundException("No se encontró el contacto con nombre: " + name);
+        }
+
+        // Validar nuevo teléfono
+        if (newPhone == null || newPhone.isBlank()) {
+            throw new InvalidContactException("El teléfono no puede estar vacío.");
+        }
+
+        if (!newPhone.matches("\\d{10}")) {
+            throw new InvalidContactException("El teléfono debe tener 10 dígitos.");
+        }
+
+        contact.setPhone(newPhone);
     }
 
 
+    //--- Eliminar un contacto de la agenda
+    public void deleteContact(Contact contact) {
+        validateContact(contact);
 
+        if (contactExists(contact)) {
+            contacts.remove(contact);
+        } else {
+            throw new ContactNotFoundException("No se encontro el contacto '" + contact.getName() + "' para eliminar.");
+        }
+    }
 
+    public boolean isFull() {
+        return (contacts.size() == capacity);
+    }
 
+    public int availableSlots() {
+        return capacity - contacts.size();
+    }
 
 }

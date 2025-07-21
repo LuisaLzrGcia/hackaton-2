@@ -1,9 +1,11 @@
 package org.generation.service;
 
 
+import org.generation.exceptions.ContactNotFoundException;
 import org.generation.model.Contact;
 import org.generation.service.ContactServices;
 
+import java.util.List;
 import java.util.Scanner;
 
 class Main {
@@ -62,7 +64,7 @@ public class ContactServices {
     //--- Buscar por nombre
     public Contact findByName(String name) {
         for (Contact contact : contactos) {
-            if (contact.getNameContact().equals(name)) {
+            if (contact.getName().equals(name)) {
                 return contact;
             }
         }
