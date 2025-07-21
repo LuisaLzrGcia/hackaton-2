@@ -4,7 +4,7 @@ package org.generation.exceptions;
 // no ingresa ningún nombre al intentar crear o buscar un contacto.
 // Se lanza cuando el campo de nombre está vacío.
 
-public class EmptyNameException extends Exception {
+public class EmptyNameException extends RuntimeException {
     public EmptyNameException() {
         super("El nombre no puede estar vacío");
     }
