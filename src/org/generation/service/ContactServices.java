@@ -1,5 +1,6 @@
 package org.generation.service;
 
+import org.generation.exceptions.ContactAlreadyExistsException;
 import org.generation.exceptions.ContactNotFoundException;
 import org.generation.model.Contact;
 
@@ -37,7 +38,7 @@ public class ContactServices {
         validateContact(contact);
 
         if (contactExists(contact)) {
-            throw new IllegalArgumentException("El contacto ya existe en la agenda.");
+            throw new ContactAlreadyExistsException("El contacto ya existe en la agenda.");
         }
 
         if (isFull()) {
