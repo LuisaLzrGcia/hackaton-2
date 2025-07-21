@@ -66,7 +66,7 @@ public class Main {
                     break;
 
                 case "3":
-                    List<Contact> all = service.getAllContacts();
+                    List<Contact> all = service.getContacts();
                     if (all.isEmpty()) {
                         System.out.println("La agenda está vacía.");
                     } else {
@@ -107,8 +107,7 @@ public class Main {
                     break;
 
                 case "7":
-                    int libres = service.getCapacity() - service.getAllContacts().size();
-                    System.out.println("Espacios libres: " + libres);
+                    System.out.println("Espacios libres: " + service.availableSlots());
                     break;
 
                 case "0":
@@ -121,7 +120,7 @@ public class Main {
             }
             System.out.println();
         }
-        scanner.close()
+        scanner.close();
     }//main
     private static void mostrarMenu() {
         System.out.println("=== MENÚ DE AGENDA ===");
