@@ -16,4 +16,18 @@ public class Contact {
     public String getPhone() {
         return phone;
     }
+
+    // dos contactos se consideran iguales solo si el nombre coincide.
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Contact other = (Contact) obj;
+        return name.equalsIgnoreCase(other.name);
+    }
+
+    @Override
+    public String toString() {
+        return name + ": " + phone;
+    }
 }
