@@ -44,4 +44,17 @@ public class ContactServices {
         throw new ContactNotFoundException("No se encuentra el contacto con telefono: " + phone);
     }
 
+    //--- Eliminar un contacto de la agenda
+    public void deleteContact (Contact c) {
+        boolean removed = contacts.remove(c);
+         if (!removed) {
+             throw new ContactNotFoundException("No se encontro el contacto '" + c.getName() + "' para eliminar.");
+         }
+        System.out.println("El contacto '" + c.getName() + "' ha sido eliminado exitosamente.");
+    }
+
+
+
+
+
 }
