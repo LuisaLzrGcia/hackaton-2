@@ -14,5 +14,10 @@ public class ContactServices {
         contacts.add(contact);
     }
 
+    //--- Listar contactos
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
 
 }
