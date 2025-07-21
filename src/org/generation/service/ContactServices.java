@@ -12,6 +12,20 @@ import java.util.List;
 
 public class ContactServices {
     private final List<Contact> contacts = new ArrayList<>();
+    private int capacity;
+
+    // Constructor con capacidad por defecto
+    public ContactServices() {
+        this(10); // llama al otro constructor con 10
+    }
+
+    // Constructor con capacidad personalizada
+    public ContactServices(int maxCapacity) {
+        if (maxCapacity <= 0) {
+            throw new IllegalArgumentException("La capacidad debe ser mayor a 0.");
+        }
+        this.capacity = maxCapacity;
+    }
 
     // Verificar si un contacto es valido
     public void validateContact(Contact contact) {
@@ -90,6 +104,46 @@ public class ContactServices {
             }
         }
         return false;
+    }
+
+    //--- Modificar telefono de un contacto
+    public void updatePhone(String name, String newPhone) {
+        Contact contact = findByName(name); // buscar contacto
+
+        if (contact == null) {
+            throw new ContactNotFoundException("No se encontró el contacto con nombre: " + name);
+        }
+
+        // Validar nuevo teléfono
+        if (newPhone == null || newPhone.isBlank()) {
+            throw new InvalidContactException("El teléfono no puede estar vacío.");
+        }
+
+        if (!newPhone.matches("\\d{10}")) {
+            throw new InvalidContactException("El teléfono debe tener 10 dígitos.");
+        }
+
+        contact.setPhone(newPhone);
+    }
+
+
+    //--- Eliminar un contacto de la agenda
+    public void deleteContact(Contact contact) {
+        validateContact(contact);
+
+        if (contactExists(contact)) {
+            contacts.remove(contact);
+        } else {
+            throw new ContactNotFoundException("No se encontro el contacto '" + contact.getName() + "' para eliminar.");
+        }
+    }
+
+    public boolean isFull() {
+        return (contacts.size() == capacity);
+    }
+
+    public int availableSlots() {
+        return capacity - contacts.size();
     }
 
 }
