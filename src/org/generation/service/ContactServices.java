@@ -1,11 +1,32 @@
 package org.generation.service;
 
+import org.generation.exceptions.AgendaIsFull;
 import org.generation.exceptions.ContactNotFoundException;
 import org.generation.model.Contact;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+public class ContactServices {
+    private final int capacidad = 10;
+    private List<Contact> contactos;
+
+    public ContactServices() {
+        contactos = new ArrayList<>();
+    }
+
+    public void agregarContacto(Contact nuevo) throws AgendaIsFull {
+        if (contactos.size() >= capacidad) {
+            throw new AgendaIsFull();
+        }
+        if (contactos.contains(nuevo)) {
+            System.out.println("❗ El contacto ya existe.");
+            return;
+        }
+        contactos.add(nuevo);
+    }
+}
 
 public class ContactServices {
     private final List<Contact> contacts = new ArrayList<>();
