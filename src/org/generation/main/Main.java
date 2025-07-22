@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 //import org.generation.exceptions.AgendaIsFull;
-import org.generation.exceptions.ContactAlreadyExistsException;
-import org.generation.exceptions.ContactNotFoundException;
-import org.generation.exceptions.EmptyNameException;
-import org.generation.exceptions.InvalidContactException;
+import org.generation.exceptions.*;
 import org.generation.model.Contact;
 import org.generation.service.ContactServices;
 
@@ -48,7 +45,7 @@ public class Main {
                         try {
                             service.addContact(new Contact(nombre, telefono));
                             System.out.println("Contacto añadido.");
-                        } catch (IllegalArgumentException e) {
+                        } catch (AgendaIsFull e) {
                             System.out.println("! Agenda llena: no se puede añadir más.");
                         } catch (ContactAlreadyExistsException e) {
                             System.out.println("! Ya existe ese contacto.");
@@ -109,6 +106,20 @@ public class Main {
                         System.out.println("Espacios libres: " + service.availableSlots());
                         break;
 
+                    case "8":
+                        System.out.print("Nombre del contacto a actualizar: ");
+                        nombre = scanner.nextLine();
+                        System.out.print("Nuevo numero de telefono: ");
+                        telefono = scanner.nextLine();
+                        try {
+                            service.updatePhone(nombre, telefono);
+
+                            System.out.println("Actualizado.");
+                        } catch (ContactNotFoundException e) {
+                            System.out.println("! " + e.getMessage());
+                        }
+                        break;
+
                     case "0":
                         salir = true;
                         System.out.println("Saliendo... ¡Hasta luego!");
@@ -132,6 +143,7 @@ public class Main {
         System.out.println("5. Eliminar contacto");
         System.out.println("6. ¿Agenda llena?");
         System.out.println("7. Espacios libres");
+        System.out.println("8. Actualizar telefono");
         System.out.println("0. Salir");
         System.out.print("Selecciona: ");
     }// menu

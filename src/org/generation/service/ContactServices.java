@@ -1,9 +1,6 @@
 package org.generation.service;
 
-import org.generation.exceptions.ContactAlreadyExistsException;
-import org.generation.exceptions.ContactNotFoundException;
-import org.generation.exceptions.EmptyNameException;
-import org.generation.exceptions.InvalidContactException;
+import org.generation.exceptions.*;
 import org.generation.model.Contact;
 
 import java.util.ArrayList;
@@ -58,7 +55,7 @@ public class ContactServices {
         }
 
         if (isFull()) {
-            throw new IllegalArgumentException("El contacto ya existe en la agenda.");
+            throw new AgendaIsFull();
         }
 
         contacts.add(contact);
@@ -75,7 +72,7 @@ public class ContactServices {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact contact = iterator.next();
-            if (contact.getName().equals(name)) {
+            if (contact.getName().equalsIgnoreCase(name)) {
                 return contact;
             }
         }
