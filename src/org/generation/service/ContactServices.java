@@ -43,7 +43,7 @@ public class ContactServices {
         }
 
         if (!contact.getPhone().matches("\\d{10}")) {
-            throw new InvalidContactException("El teléfono debe contener solo dígitos y tener entre 10 caracteres.");
+            throw new InvalidContactException("El teléfono debe contener solo dígitos y tener 10 caracteres.");
         }
     }
 
@@ -57,7 +57,7 @@ public class ContactServices {
             throw new ContactAlreadyExistsException("El contacto ya existe en la agenda.");
         }
 
-        if (!isFull()) {
+        if (isFull()) {
             throw new IllegalArgumentException("El contacto ya existe en la agenda.");
         }
 
@@ -99,7 +99,7 @@ public class ContactServices {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact contact = iterator.next();
-            if (contact.getName().equals(currentContact.getName())) {
+            if (contact.getName().equalsIgnoreCase(currentContact.getName())) {
                 return true;
             }
         }
