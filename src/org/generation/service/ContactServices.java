@@ -75,7 +75,7 @@ public class ContactServices {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact contact = iterator.next();
-            if (contact.getName().equals(name)) {
+            if (contact.getName().equalsIgnoreCase(name)) {
                 return contact;
             }
         }

@@ -109,6 +109,19 @@ public class Main {
                         System.out.println("Espacios libres: " + service.availableSlots());
                         break;
 
+                    case "8":
+                        System.out.println("Nombre del contacto a actualizar: ");
+                        nombre = scanner.nextLine();
+                        System.out.println("Nuevo numero de teléfono: ");
+                        telefono = scanner.nextLine();
+                        try {
+                            service.updatePhone(nombre, telefono);
+                            System.out.println("Actualizado...");
+                        } catch (ContactNotFoundException e) {
+                            System.out.println("! " + e.getMessage());
+                        }
+                        break;
+
                     case "0":
                         salir = true;
                         System.out.println("Saliendo... ¡Hasta luego!");
@@ -132,6 +145,7 @@ public class Main {
         System.out.println("5. Eliminar contacto");
         System.out.println("6. ¿Agenda llena?");
         System.out.println("7. Espacios libres");
+        System.out.println("8. Actualizar teléfono");
         System.out.println("0. Salir");
         System.out.print("Selecciona: ");
     }// menu
