@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ContactServices {
-    private final List<Contact> contacts = new ArrayList<>();
+    private List<Contact> contacts = new ArrayList<>();
     private int capacity;
 
     // Constructor con capacidad por defecto
@@ -25,8 +25,11 @@ public class ContactServices {
             throw new IllegalArgumentException("La capacidad debe ser mayor a 0.");
         }
         this.capacity = maxCapacity;
+        this.contacts = new ArrayList<>(maxCapacity);
     }
-
+    public int getCapacity() {
+        return capacity;
+    }
     // Verificar si un contacto es valido
     public void validateContact(Contact contact) {
         if (contact == null) {

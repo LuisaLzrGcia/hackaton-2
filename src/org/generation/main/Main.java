@@ -32,7 +32,7 @@ public class Main {
         }
 
         ContactServices service = new ContactServices(cap);
-        System.out.println("Capacidad de la agenda: " + service.getCapacity() + " contactos.\n");
+        System.out.println("Capacidad de la agenda: " + service.availableSlots() + " contactos.\n");
 
         boolean salir = false;
         while (!salir) {
@@ -47,8 +47,6 @@ public class Main {
                     try {
                         service.addContact(new Contact(nombre, telefono));
                         System.out.println("Contacto añadido.");
-                    } catch (AgendaIsFull e) {
-                        System.out.println("! Agenda llena: no se puede añadir más.");
                     } catch (ContactAlreadyExistsException e) {
                         System.out.println("! Ya existe ese contacto.");
                     } catch (InvalidContactException | EmptyNameException e) {
