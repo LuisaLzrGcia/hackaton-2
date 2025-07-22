@@ -1,5 +1,6 @@
 package org.generation.service;
 
+import org.generation.exceptions.AgendaIsFull;
 import org.generation.exceptions.ContactAlreadyExistsException;
 import org.generation.exceptions.ContactNotFoundException;
 import org.generation.exceptions.EmptyNameException;
@@ -57,8 +58,8 @@ public class ContactServices {
             throw new ContactAlreadyExistsException("El contacto ya existe en la agenda.");
         }
 
-        if (!isFull()) {
-            throw new IllegalArgumentException("El contacto ya existe en la agenda.");
+        if (isFull()) {
+            throw new AgendaIsFull();
         }
 
         contacts.add(contact);
